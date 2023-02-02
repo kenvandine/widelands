@@ -1,0 +1,58 @@
+name: widelands
+adopt-info: widelands
+base: core22
+architectures:
+- amd64
+confinement: strict
+grade: stable
+
+layout:
+  /usr/share/games/widelands:
+    bind: $SNAP/usr/share/games/widelands
+
+package-repositories:
+  - type: apt
+    ppa: widelands-dev/widelands
+
+apps:
+  widelands:
+    command: usr/games/widelands
+    common-id: org.widelands.Widelands.desktop
+    desktop: usr/share/applications/org.widelands.Widelands.desktop
+    extensions: [gnome]
+    plugs:
+    - audio-playback
+
+parts:
+  widelands:
+    plugin: nil
+    parse-info: [usr/share/metainfo/org.widelands.Widelands.appdata.xml]
+    build-packages:
+      - dpkg-dev
+    stage-packages:
+      - widelands
+    override-build: |
+      craftctl default
+      # Set the snap version from the .deb package version
+      craftctl set version=$(dpkg-parsechangelog -l $CRAFT_PART_INSTALL/usr/share/doc/widelands/changelog.gz -S Version | sed -e s/2://g)
+      # Copy over the icon
+      mkdir -p $CRAFT_PART_INSTALL/meta/gui
+      cp $CRAFT_PART_INSTALL/usr/share/icons/hicolor/128x128/apps/org.widelands.Widelands.png $CRAFT_PART_INSTALL/meta/gui/icon.png
+      # Install the desktop file, with the icon field munged
+      sed -i 's|Icon=org.widelands.Widelands|Icon=${SNAP}/meta/gui/icon.png|g' $CRAFT_PART_INSTALL/usr/share/applications/org.widelands.Widelands.desktop
+    prime:
+      - usr/share/fonts/*/culmus-fancy
+      - usr/games/widelands
+      - usr/share/games/widelands
+      - usr/share/applications/org.widelands.Widelands.desktop
+      - usr/share/metainfo
+      - meta/gui
+      - usr/lib/*/libGLEW*
+      - usr/lib/*/libSDL*
+      - usr/lib/*/libminizip*
+      - usr/lib/*/libXss*
+      - usr/lib/*/libdecor*
+      - usr/lib/*/libfluidsynth*
+      - usr/lib/*/libmodplub*
+      - usr/lib/*/libopus*
+      - usr/lib/*/libinstpatch*
