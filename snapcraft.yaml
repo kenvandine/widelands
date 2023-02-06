@@ -55,4 +55,5 @@ parts:
       - usr/lib/*/libfluidsynth*
       - usr/lib/*/libmodplug*
       - usr/lib/*/libopus*
+      - usr/lib/libopus*
       - usr/lib/*/libinstpatch*
