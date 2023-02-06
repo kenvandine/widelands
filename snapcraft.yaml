@@ -53,6 +53,6 @@ parts:
       - usr/lib/*/libXss*
       - usr/lib/*/libdecor*
       - usr/lib/*/libfluidsynth*
-      - usr/lib/*/libmodplub*
+      - usr/lib/*/libmodplug*
       - usr/lib/*/libopus*
       - usr/lib/*/libinstpatch*
