@@ -1,6 +1,6 @@
 name: widelands
 adopt-info: widelands
-base: core22
+base: core24
 architectures:
 - amd64
 confinement: strict
